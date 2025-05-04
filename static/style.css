@@ -1,0 +1,4 @@
+.estado-Activo { color: green; font-weight: bold; }
+.estado-Apagado { color: gray; font-weight: bold; }
+.estado-Mantenimiento { color: orange; font-weight: bold; }
+.estado-Error { color: red; font-weight: bold; }
