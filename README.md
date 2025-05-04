@@ -50,16 +50,30 @@
 
 ---
 
-## 🛠️ Software Installation
+## 🛠️ Hardware Installation & Software Installation
 
 ```bash
+ESP32 Config
+# Download the INO file and compile it for your ESP32
+# Edit the file with your WiFi credentials and the correct pin configuration
+
+BIOS Config (WOL)
+# Enter BIOS -> Advanced or Power section
+# Enable “Power On by Onboard LAN” or similar
+# Disable ErP/Deep Power Off (otherwise the network card will be off)
+
+---
+
 # Clone repository
-git clone https://github.com/YourUser/wake-panel.git
+git clone https://github.com/oscarnadals/wakeonlan.git
 cd wake-panel
 
-# Create & activate virtual environment
+# Create & activate virtual environment (non-mandatory)
 python3 -m venv venv
 source venv/bin/activate
+
+# (Recommended) Use screen or tmux to keep the Flask server running after SSH disconnects:
+screen -S wake-panel
 
 # Install Python dependencies
 pip install Flask python-pam paramiko
@@ -67,3 +81,6 @@ pip install Flask python-pam paramiko
 # Install system tools (Debian/Ubuntu)
 sudo apt update
 sudo apt install ethtool curl
+
+# Run the Flask app
+python3 app.py
