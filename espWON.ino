@@ -3,8 +3,8 @@
 #include <M5Atom.h>
 
 
-const char* ssid     = "IotPlayaBlanca";
-const char* password = "kincetlos";
+const char* ssid     = "WiFi";
+const char* password = "WiFiPass";
 
 
 #define SWITCH1 22
