@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+  <script>
+    function mostrarCampos() {
+      const tipo = document.getElementById("tipo").value;
+      document.getElementById("campo-mac").style.display = tipo === "wol" ? "block" : "none";
+      document.getElementById("campo-esp").style.display = tipo === "esp" ? "block" : "none";
+    }
+  </script>
+</head>
+<body class="bg-light">
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>Panel de Control</h1>
+      <a href="/logout" class="btn btn-outline-danger">Cerrar sesión</a>
+    </div>
+
+    <table class="table table-bordered table-striped mt-3">
+      <thead>
+        <tr><th>Nombre</th><th>IP</th><th>Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+        {% for nombre, data in pcs.items() %}
+          <tr>
+            <td>{{ nombre }}</td>
+            <td>{{ data.ip }}</td>
+            <td class="estado-{{ estados[nombre].split(':')[0] }}">{{ estados[nombre] }}</td>
+            <td>
+              <form method="POST" class="d-flex gap-1">
+                <input type="hidden" name="nombre" value="{{ nombre }}">
+                <button name="accion" value="Encender" class="btn btn-success btn-sm">Encender</button>
+                <button name="accion" value="Eliminar" class="btn btn-danger btn-sm">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3>Añadir Ordenador o Dispositivo</h3>
+    <form method="POST" class="row g-2">
+      <input type="hidden" name="accion" value="Anadir">
+      <div class="col-md-2">
+        <input name="nombre" placeholder="Nombre" class="form-control" required>
+      </div>
+      <div class="col-md-2">
+        <input name="ip" placeholder="IP del PC" class="form-control" required>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select" name="tipo" id="tipo" onchange="mostrarCampos()">
+          <option value="wol" selected>Wake-on-LAN</option>
+          <option value="esp">ESP32 (Relé)</option>
+        </select>
+      </div>
+      <div class="col-md-2" id="campo-mac">
+        <input name="mac" placeholder="MAC Address" class="form-control">
+      </div>
+      <div class="col-md-2" id="campo-esp" style="display:none;">
+        <input name="esp_ip" placeholder="IP del ESP32" class="form-control">
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Añadir</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
